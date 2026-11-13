@@ -27,6 +27,7 @@
       products.js  has the PRODUCTS list. It needs nothing.
       format.js    has formatMoney. It needs nothing.
       cart.js      needs PRODUCTS and formatMoney, so they load first.
+      storage.js   needs cleanSavedCart from cart.js.
       render.js    needs the cart functions and formatMoney.
       main.js      needs all of them, so it loads last.
     "defer" tells the browser: read the whole page first, then run the scripts in this order.
@@ -34,6 +35,7 @@
   <script defer src="js/products.js"></script>
   <script defer src="js/format.js"></script>
   <script defer src="js/cart.js"></script>
+  <script defer src="js/storage.js"></script>
   <script defer src="js/render.js"></script>
   <script defer src="js/main.js"></script>
 </head>

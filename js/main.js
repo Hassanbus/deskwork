@@ -2,7 +2,7 @@
 //
 // The current cart lives in ONE variable in this file. Every click follows the same steps:
 //   1. a cart function from cart.js builds a new cart,
-//   2. updateCart keeps the new cart and draws the page again.
+//   2. updateCart keeps the new cart, saves it and draws the page again.
 // So the page always shows what is in the cart, and no other code changes the cart.
 //
 // This file needs all the other scripts, so it loads last.
@@ -35,9 +35,10 @@ const wideScreen = window.matchMedia("(min-width: 900px)");
 // The cart that the page shows now. Only updateCart gives it a new value.
 let currentCart = [];
 
-// Keeps the new cart and draws every part of the page again.
+// Keeps the new cart, saves it in the browser and draws every part of the page again.
 function updateCart(newCart) {
   currentCart = newCart;
+  saveCart(currentCart);
   renderProducts(currentCart);
   renderCart(currentCart);
   renderSummary(currentCart);
@@ -181,5 +182,5 @@ placeOrderButton.addEventListener("click", showReceipt);
 newOrderButton.addEventListener("click", handleNewOrderClick);
 receiptDialog.addEventListener("close", handleReceiptClose);
 
-// Draw the page for the first time with an empty cart.
-updateCart([]);
+// Load the saved cart and draw the page for the first time.
+updateCart(loadCart());
