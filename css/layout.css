@@ -1,0 +1,81 @@
+/* Page layout: the page width, the header row, the main grid, the product grid
+   and the rules for wide screens. */
+
+/* ---------- Page width ---------- */
+
+/* Keeps the content in the middle of the page with some space on the left and right. */
+.page-width {
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+}
+
+/* ---------- Header ---------- */
+
+/* On small screens the header stays at the top, so the Cart button is always near. */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: var(--color-page);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-top: var(--space-3);
+  padding-bottom: var(--space-3);
+}
+
+/* ---------- Main grid ---------- */
+
+/* One column on small screens. The cart is a drawer there, so it needs no place in the grid. */
+.page-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+  padding-top: var(--space-5);
+  padding-bottom: var(--space-7);
+}
+
+/* ---------- Product grid ---------- */
+
+/* auto-fill makes as many columns as fit. Every column is 220px wide or more. */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--space-4);
+}
+
+/* ---------- Wide screens (900px and wider) ---------- */
+
+/* The cart leaves the drawer and becomes a second column on the right.
+   A media query cannot read a CSS variable, so 900px is written as a number.
+   The same number is in components.css and in js/main.js. */
+@media (min-width: 900px) {
+  .page-width {
+    padding-left: var(--space-5);
+    padding-right: var(--space-5);
+  }
+
+  /* The cart is always in view here, so the header does not have to stay at the top. */
+  .site-header {
+    position: static;
+  }
+
+  .header-row {
+    min-height: var(--header-height);
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-4);
+  }
+
+  /* align-items: start keeps the cart panel as high as its content, not as high as the product list. */
+  .page-grid {
+    grid-template-columns: 1fr var(--cart-width);
+    align-items: start;
+  }
+}

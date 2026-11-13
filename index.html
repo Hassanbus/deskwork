@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<!-- The page of the Deskwork shop: header, product list, cart panel and receipt dialog.
+     The scripts in the js folder fill the product list and the cart. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deskwork - desk accessories</title>
+  <meta name="description" content="Deskwork is a small shop for desk accessories.">
+
+  <!-- The icon in the browser tab is a small SVG drawing written inside the link,
+       so the page needs no image file.
+       A link cannot hold the characters < > # and space, so they are written as codes:
+       %3C is <, %3E is >, %23 is # and %20 is a space. -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2016'%3E%3Crect%20width='16'%20height='16'%20rx='3'%20fill='%230e5c6b'/%3E%3Cpath%20d='M2.5%205.5h11M4.5%205.5v7M11.5%205.5v7M4.5%209h7'%20fill='none'%20stroke='white'%20stroke-width='1.4'%20stroke-linecap='round'/%3E%3C/svg%3E">
+
+  <!-- The styles load from general to specific: values, base, page layout, parts of the page. -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+
+  <!--
+    The scripts are plain files without import or export.
+    So the page also works when index.html is opened with a double-click.
+    A script can use the names from the scripts above it, so the order matters:
+      products.js  has the PRODUCTS list. It needs nothing.
+      format.js    has formatMoney. It needs nothing.
+      cart.js      needs PRODUCTS and formatMoney, so they load first.
+    "defer" tells the browser: read the whole page first, then run the scripts in this order.
+  -->
+  <script defer src="js/products.js"></script>
+  <script defer src="js/format.js"></script>
+  <script defer src="js/cart.js"></script>
+</head>
+<body>
+
+  <!-- ---------- Icon shapes ---------- -->
+  <!-- Every icon is drawn once here, inside a <symbol>. This block shows nothing itself.
+       The page uses an icon with <svg><use href="#icon-name"></use></svg>.
+       The product icons are named "icon-" plus the product id from js/products.js. -->
+  <svg class="icon-sprite" aria-hidden="true">
+    <symbol id="icon-desk" viewBox="0 0 24 24">
+      <path d="M3 8h18M6 8v11M18 8v11M6 13h12"/>
+    </symbol>
+    <symbol id="icon-cart" viewBox="0 0 24 24">
+      <path d="M5 8h14l-1 12H6z"/>
+      <path d="M9 8V7a3 3 0 0 1 6 0v1"/>
+    </symbol>
+    <symbol id="icon-plus" viewBox="0 0 24 24">
+      <path d="M12 5v14M5 12h14"/>
+    </symbol>
+    <symbol id="icon-minus" viewBox="0 0 24 24">
+      <path d="M5 12h14"/>
+    </symbol>
+    <symbol id="icon-close" viewBox="0 0 24 24">
+      <path d="M6 6l12 12M18 6L6 18"/>
+    </symbol>
+    <symbol id="icon-trash" viewBox="0 0 24 24">
+      <path d="M4 7h16M10 7V4h4v3M6 7l1 13h10l1-13M10 11v5M14 11v5"/>
+    </symbol>
+
+    <symbol id="icon-notebook" viewBox="0 0 48 48">
+      <rect x="13" y="7" width="24" height="34" rx="3"/>
+      <path d="M9 15h8M9 24h8M9 33h8M23 16h8M23 22h5"/>
+    </symbol>
+    <symbol id="icon-pen-set" viewBox="0 0 48 48">
+      <path d="M12 14a3 3 0 0 1 6 0v18l-3 8-3-8z"/>
+      <path d="M21 10a3 3 0 0 1 6 0v22l-3 8-3-8z"/>
+      <path d="M30 14a3 3 0 0 1 6 0v18l-3 8-3-8z"/>
+      <path d="M12 32h6M21 32h6M30 32h6"/>
+    </symbol>
+    <symbol id="icon-desk-lamp" viewBox="0 0 48 48">
+      <path d="M10 41h16M18 41l-4-15 13-12"/>
+      <path d="M24 16l6-4 10 6-13 10z"/>
+      <path d="M36.3 20.9a3.5 3.5 0 0 1-5.6 4.2"/>
+    </symbol>
+    <symbol id="icon-ceramic-mug" viewBox="0 0 48 48">
+      <path d="M11 16h20v16a7 7 0 0 1-7 7h-6a7 7 0 0 1-7-7z"/>
+      <path d="M31 20h3a5 5 0 0 1 0 10h-3"/>
+      <path d="M17 11c-2-2 2-3 0-5M25 11c-2-2 2-3 0-5"/>
+    </symbol>
+    <symbol id="icon-monitor-stand" viewBox="0 0 48 48">
+      <rect x="12" y="6" width="24" height="16" rx="2"/>
+      <path d="M24 22v10M7 32h34M11 32v9M37 32v9M11 37h26"/>
+    </symbol>
+    <symbol id="icon-mouse-pad" viewBox="0 0 48 48">
+      <rect x="6" y="11" width="36" height="27" rx="4"/>
+      <rect x="25" y="17" width="11" height="15" rx="5.5"/>
+      <path d="M30.5 20v3"/>
+    </symbol>
+    <symbol id="icon-cable-organizer" viewBox="0 0 48 48">
+      <path d="M5 18h7m7 0h10m7 0h7M5 24h7m7 0h10m7 0h7M5 30h7m7 0h10m7 0h7"/>
+      <rect x="12" y="13" width="7" height="22" rx="3.5"/>
+      <rect x="29" y="13" width="7" height="22" rx="3.5"/>
+    </symbol>
+    <symbol id="icon-plant-pot" viewBox="0 0 48 48">
+      <path d="M11 26h26M14 26l2 14h16l2-14M24 26V15"/>
+      <path d="M24 20c-6 0-10-3-10-9 6 0 10 3 10 9z"/>
+      <path d="M24 15c0-5 3-8 9-8 0 5-3 8-9 8z"/>
+    </symbol>
+  </svg>
+
+  <!-- ---------- Header ---------- -->
+  <header class="site-header" id="site-header">
+    <div class="page-width header-row">
+      <div class="shop-title">
+        <span class="shop-mark">
+          <svg class="icon" aria-hidden="true"><use href="#icon-desk"></use></svg>
+        </span>
+        <div>
+          <h1 class="shop-name">Deskwork</h1>
+          <p class="shop-tagline">Small things for a tidy desk.</p>
+        </div>
+      </div>
+      <!-- On small screens this button opens the cart drawer.
+           The text "Items in cart:" is hidden on the screen and read by screen readers. -->
+      <button type="button" class="cart-button" id="cart-button">
+        <svg class="icon" aria-hidden="true"><use href="#icon-cart"></use></svg>
+        <span>Cart</span>
+        <span class="visually-hidden">Items in cart:</span>
+        <span class="count-badge" id="cart-count">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="page-width page-grid">
+
+    <!-- ---------- Product list ---------- -->
+    <!-- render.js builds one <li> card for every product.
+         tabindex="-1" lets main.js move the keyboard focus to a title. -->
+    <section id="products" aria-labelledby="products-title">
+      <h2 class="section-title" id="products-title" tabindex="-1">Products</h2>
+      <ul class="product-grid" id="product-list"></ul>
+    </section>
+
+    <!-- ---------- Cart panel ---------- -->
+    <!-- A side panel on wide screens, a drawer on small screens. -->
+    <aside class="cart-panel" id="cart-panel" aria-labelledby="cart-title">
+      <div class="cart-header">
+        <h2 class="cart-title" id="cart-title" tabindex="-1">Your cart</h2>
+        <button type="button" class="icon-button drawer-close" id="drawer-close" aria-label="Close cart">
+          <svg class="icon" aria-hidden="true"><use href="#icon-close"></use></svg>
+        </button>
+      </div>
+
+      <!-- render.js builds one <li> row for every product in the cart. -->
+      <div class="cart-body">
+        <p class="cart-empty" id="cart-empty">
+          <strong class="cart-empty-title">Your cart is empty.</strong>
+          Add something from the list.
+        </p>
+        <ul id="cart-list"></ul>
+      </div>
+
+      <div class="cart-footer">
+        <!-- aria-live makes a screen reader read the new numbers after the cart changes. -->
+        <div aria-live="polite" aria-atomic="true">
+          <dl>
+            <div class="summary-row">
+              <dt>Items</dt>
+              <dd id="summary-items">0</dd>
+            </div>
+            <div class="summary-row">
+              <dt>Subtotal</dt>
+              <dd id="summary-subtotal"></dd>
+            </div>
+            <div class="summary-row">
+              <dt>Shipping</dt>
+              <dd id="summary-shipping"></dd>
+            </div>
+            <div class="summary-row summary-total">
+              <dt>Total</dt>
+              <dd id="summary-total"></dd>
+            </div>
+          </dl>
+          <p class="shipping-hint" id="shipping-hint"></p>
+          <div class="progress" aria-hidden="true">
+            <div class="progress-fill" id="shipping-progress"></div>
+          </div>
+        </div>
+
+        <div class="cart-actions">
+          <button type="button" class="button button-primary" id="place-order" disabled>Place order</button>
+          <button type="button" class="button button-quiet" id="clear-cart">Clear cart</button>
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- ---------- Drawer backdrop ---------- -->
+  <!-- The dark layer behind the open cart drawer. A click on it closes the drawer. -->
+  <div class="backdrop" id="drawer-backdrop"></div>
+
+  <!-- ---------- Receipt dialog ---------- -->
+  <!-- main.js opens it with showModal() and writes the receipt text into the <pre>. -->
+  <dialog class="receipt-dialog" id="receipt-dialog" aria-labelledby="receipt-title">
+    <h2 class="receipt-title" id="receipt-title">Order placed</h2>
+    <p class="receipt-note">Thank you. Here is your receipt.</p>
+    <pre class="receipt-text" id="receipt-text"></pre>
+    <button type="button" class="button button-primary" id="new-order">Start a new order</button>
+  </dialog>
+
+</body>
+</html>

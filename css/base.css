@@ -1,0 +1,94 @@
+/* Base styles: a small reset, the page body, the text styles and the keyboard focus style. */
+
+/* ---------- Reset ---------- */
+
+/* The width and height of an element include its padding and border.
+   This makes sizes easier to plan. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Browsers add their own margins. Remove them, so all spacing comes from our CSS. */
+body,
+h1,
+h2,
+h3,
+p,
+ul,
+dl,
+dd,
+pre {
+  margin: 0;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+/* A button does not take the font of the page by itself. */
+button {
+  color: inherit;
+  font: inherit;
+}
+
+/* ---------- Body ---------- */
+
+html {
+  /* The site has a light theme only. */
+  color-scheme: light;
+  /* Keeps the place of the scrollbar free, so the page does not jump
+     when the drawer or the dialog switches scrolling off. */
+  scrollbar-gutter: stable;
+  /* Stops phones from making the text bigger when they are turned sideways. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-page);
+  color: var(--color-ink);
+  font-family: var(--font-text);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-text);
+  /* Every digit has the same width, so prices stand in straight columns. */
+  font-variant-numeric: tabular-nums;
+}
+
+/* While the receipt dialog is open, the page behind it does not scroll.
+   :has() reads as: the body that has an open dialog inside. */
+body:has(dialog[open]) {
+  overflow: hidden;
+}
+
+/* ---------- Typography ---------- */
+
+h1,
+h2,
+h3 {
+  font-weight: 700;
+  line-height: var(--line-height-title);
+}
+
+/* ---------- Keyboard focus ---------- */
+
+/* Every control gets a clear ring when it is reached with the keyboard.
+   :focus-visible does not show the ring after a mouse click. */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ---------- Helpers ---------- */
+
+/* Hides a text on the screen but keeps it for screen readers. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
