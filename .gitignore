@@ -1,0 +1,8 @@
+# Files that git should not track.
+
+# Packages that npm installs
+node_modules/
+
+# Files that the computer makes by itself
+.DS_Store
+Thumbs.db

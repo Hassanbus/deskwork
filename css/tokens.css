@@ -1,0 +1,82 @@
+/* Design tokens: the colors, spacing, font sizes and other values that the other CSS files share.
+   Change a value here and it changes in every place that uses it. */
+
+:root {
+  /* ---------- Colors ---------- */
+
+  --color-page: #edf1ef;         /* page background: light, cool, a little green */
+  --color-surface: #ffffff;      /* cards, cart panel, dialog */
+  --color-ink: #17211d;          /* main text */
+  --color-muted: #55635d;        /* less important text */
+  --color-line: #d3dbd7;         /* thin borders */
+  --color-accent: #0e5c6b;       /* the one accent color: buttons, badge, progress bar */
+  --color-accent-dark: #0a4753;  /* the accent while the mouse is over it */
+  --color-on-accent: #ffffff;    /* text on top of the accent color */
+  --color-backdrop: rgba(23, 33, 29, 0.5);  /* the dark layer behind the drawer and the dialog */
+
+  /* One muted tile color for each product. */
+  --tile-sage: #dce8df;
+  --tile-sky: #d9e3f0;
+  --tile-sand: #ebe6d4;
+  --tile-rose: #f0dde0;
+  --tile-lilac: #e1dfee;
+  --tile-mint: #d3eae6;
+  --tile-stone: #dfe3e6;
+  --tile-moss: #dfe7cb;
+
+  /* ---------- Spacing ---------- */
+
+  /* 1rem is 16px in most browsers. */
+  --space-1: 0.25rem;  /* 4px */
+  --space-2: 0.5rem;   /* 8px */
+  --space-3: 0.75rem;  /* 12px */
+  --space-4: 1rem;     /* 16px */
+  --space-5: 1.5rem;   /* 24px */
+  --space-6: 2rem;     /* 32px */
+  --space-7: 3rem;     /* 48px */
+
+  /* ---------- Type ---------- */
+
+  /* Only fonts that are already on the computer or phone. Nothing is downloaded. */
+  --font-text: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "Cascadia Mono", Consolas, Menlo, "Liberation Mono", monospace;
+
+  /* The type scale, from small to big. */
+  --font-size-small: 0.8125rem;   /* 13px */
+  --font-size-body: 0.9375rem;    /* 15px */
+  --font-size-medium: 1.0625rem;  /* 17px */
+  --font-size-large: 1.375rem;    /* 22px */
+  --font-size-title: 1.75rem;     /* 28px */
+
+  /* One receipt line has 36 characters and must fit on a small phone.
+     clamp() lets the size follow the screen width, but never below 12px and never above 14px. */
+  --font-size-receipt: clamp(0.75rem, 3.3vw, 0.875rem);
+
+  --line-height-text: 1.5;
+  --line-height-title: 1.2;
+
+  /* ---------- Sizes ---------- */
+
+  --page-width: 87.5rem;      /* 1400px: the page content does not get wider than this */
+  --header-height: 5.375rem;  /* 86px: the header on wide screens */
+  --cart-width: 21.25rem;     /* 340px: the cart panel on wide screens */
+  --control-height: 2.75rem;  /* 44px: buttons */
+  --small-control: 2.25rem;   /* 36px: buttons that show only an icon */
+
+  /* Only two corner sizes are used on the whole page. */
+  --radius-small: 6px;        /* buttons, labels, tiles */
+  --radius-large: 12px;       /* cards, cart panel, dialog */
+
+  /* ---------- Motion ---------- */
+
+  --time-press: 120ms;        /* the press effect of a button */
+  --time-slide: 240ms;        /* the cart drawer sliding in and out */
+}
+
+/* A user can ask the system for less motion. Then nothing on the page slides. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --time-press: 0ms;
+    --time-slide: 0ms;
+  }
+}
